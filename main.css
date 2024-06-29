@@ -1,0 +1,32 @@
+.wordleEntry{
+    font-style: italic;
+    color:blue;
+    border-style: solid;
+    height: 15px;
+    width: 15px;
+}
+
+.row{ 
+    /* background-color: aquamarine; */
+    display: flex;
+}
+
+.row1{ 
+    background-color:  brown;
+}
+
+.row2{ 
+    background-color: coral;
+}
+
+.row3{ 
+    background-color: blueviolet;
+}
+
+.row4{ 
+    background-color: darkkhaki;
+}
+
+.row5{ 
+    background-color: indigo;
+}
