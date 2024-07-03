@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="main.css"/>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="getWordleWord.js"></script>
     <script>
         // window.onload = () => {
         //     // alert("hi")
@@ -16,6 +17,11 @@
         //         document.write(`</div>`)
         //     }
 	    // }
+
+        $(document).ready(function(){
+            $('#btn1').click(checkWord($("#guess").val(), word))
+            }
+        )
 
         // function formatGameBoard() {
         //     for (let i = 0; i < 4; i++){
@@ -30,6 +36,7 @@
         //         });
         //     }
         // }
+        
 
         window.onload = () => {
             for (let i = 0; i < 6; ++i){
@@ -43,9 +50,9 @@
                     currentDiv.appendChild(element)
                 });
             }
+            
+            let word = getWordleWord()
         }
-
-        // formatGameBoard()
     </script>
 </head>
 
@@ -64,8 +71,9 @@
     <div>
         <form>
             <label >What is your guess?:</label><br>
-            <input ><br>
-            <button onclick=checkWord() value="CheckGuess">Check My Guess</button>
+            <input type = "text" id="guess"> <br>
+            <!-- <button onclick=checkWord() value="CheckGuess">Check My Guess</button> -->
+            <input type="button" id="guessBtn" value="Check My Guess">
             <!-- <button onclick="speak('Good Bye')" value="GoodBye">Good Bye</button> -->
             <!-- <button onclick="speak('Greetings')" value="greet">Greetings</button> -->
         </form>

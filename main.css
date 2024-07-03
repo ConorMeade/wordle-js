@@ -4,29 +4,17 @@
     border-style: solid;
     height: 15px;
     width: 15px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 90px;
+
+    /* margin: auto; */
+    /* width: 50%; */
+    /* border: 3px solid green; */
+    /* padding: 10px; */
 }
 
 .row{ 
     /* background-color: aquamarine; */
     display: flex;
-}
-
-.row1{ 
-    background-color:  brown;
-}
-
-.row2{ 
-    background-color: coral;
-}
-
-.row3{ 
-    background-color: blueviolet;
-}
-
-.row4{ 
-    background-color: darkkhaki;
-}
-
-.row5{ 
-    background-color: indigo;
 }
