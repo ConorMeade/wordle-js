@@ -14,11 +14,8 @@
         console.log(word)
         window.onload = () => {
             for (let i = 0; i < 6; ++i){
-                // console.log('row' + i)
                 let currentDiv = document.getElementById('row' + i)
-                // console.log(currentDiv)
-                let letterCells = buildRow(i)
-                // console.log(letterCells)
+                let letterCells = initRows(i)
 
                 letterCells.forEach(element => {
                     currentDiv.appendChild(element)
@@ -57,8 +54,6 @@
             <label >What is your guess?:</label><br>
             <input type="text" id="guessVal"> <br>
             <input type="button" value="Check My Guess" id="guessBtn">
-            <!-- <button onclick="speak('Good Bye')" value="GoodBye">Good Bye</button> -->
-            <!-- <button onclick="speak('Greetings')" value="greet">Greetings</button> -->
         </form>
     </div>
 

@@ -1,46 +1,33 @@
 
-function Cell(letter, colorStr){
+function Cell(letter, colorCode){
+    // 
+    /*
+        colorCodes
+        0 -> White (unanswerd)
+        1 -> Green
+        2 -> Yellow
+        3 -> Gray
+    */
     this.letter = letter
-    this.color = colorStr
+    this.colorCode = colorCode
     // this.isGreen = false
     // this.isYellow = false
     // this.isGray = false
     // this.answered = false
 }
-function buildRow(rowNum){
+
+function initRows(){
     let rowCells = []
     for(let i=0; i<5; i++){
-        rowCells.push(new Cell())
-        // console.log(rowCells[i])
+        rowCells.push(new Cell(" ", 0))
     }
 
     let divCells = []
     rowCells.forEach((c) => {
-        divCells.push(makeCell(c))
-        // document.write("<div id='wordleEntry'>")
-        // document.write(item.letter)
-        // document.write(`</div>`)
+        divCells.push(makeDivCell(c))
     })
 
     return divCells
-}
-
-function makeCell(cell) {
-    const newDiv = document.createElement('div')
-    // newDiv.id = '::wordleEntry'
-    newDiv.className = 'wordleEntry'
-    newDiv.style.cssText = 'font-style: italic;color:blue;border-style: solid;height: 100px;width: 100px;'
-    const newContent = document.createTextNode(cell.letter);
-    newDiv.appendChild(newContent)
-    return newDiv
-
-    // const currentDiv = document.getElementById(`row${rowNum}`);
-    // document.body.insertBefore(newDiv, currentDiv);
-}
-
-function setRowWord(newCells, currentRow){
-    console.log(currentRow)
-
 }
 
 function checkWord(guessedWord, actualWord) {
@@ -53,20 +40,67 @@ function checkWord(guessedWord, actualWord) {
     let newRow = []
     for (let i = 0; i < actualWord.length; i++) {
         let curLetter = guessedWord.charAt(i)
+        console.log(curLetter)
         let actualWordSubstring = actualWord.replace(actualWord.charAt(i), "")
-        console.log(actualWordSubstring)
-        if(actualWord.charAt(i) === curLetter){
-            newRow.push(new Cell(curLetter.toUpperCase(), 'Green'))
+        // console.log(actualWordSubstring)
+        if(actualWord.charAt(i) == curLetter){
+            newRow.push(new Cell(curLetter.toUpperCase(), 1))
         } else if (actualWord.charAt(i) != guessedWord.charAt(i) && actualWordSubstring.indexOf(curLetter) > -1){
-            newRow.push(new Cell(curLetter.toUpperCase(), 'Yellow'))
+            newRow.push(new Cell(curLetter.toUpperCase(), 2))
         } else {
-            newRow.push(new Cell(curLetter.toUpperCase(), 'Gray'))
+            newRow.push(new Cell(curLetter.toUpperCase(), 3))
         }
 
     }
-
     return newRow
+}
 
+function makeDivCell(cell) {
+    const newDiv = document.createElement('div')
+    // newDiv.id = '::wordleEntry'
+    newDiv.style.cssText = 'color: blue;border-style: solid;height: 100px;width: 100px;'
+    console.log(cell.colorCode)
+    if(cell.colorCode == 0){
+        newDiv.className = 'whiteCell'
+    }
+    if(cell.colorCode == 1){
+        newDiv.className = 'greenCell'
+    }
+    if(cell.colorCode == 2){
+        newDiv.className = 'yellowCell'
+    }
+    if(cell.colorCode == 3){
+        newDiv.className = 'grayCell'
+    } else {
+        newDiv.className = 'whiteCell'
+    }
+    // newDiv.className = 'wordleEntry'
+    newDiv.style.cssText = 'border-style: solid;height: 100px;width: 100px;'
+    const newContent = document.createTextNode(cell.letter);
+    newDiv.appendChild(newContent)
+    console.log(newDiv)
+    return newDiv
+}
+
+function setRowWord(newCells, currentRow){
+    let parentDiv = document.getElementById('row' + currentRow)
+    // instead get children divs, update color code based on newCells
+    console.log('before removal')
+    console.log(parentDiv)
+    while (parentDiv.firstChild) {
+        parentDiv.firstChild.remove()
+    }
+
+    console.log('after removal')
+    console.log(parentDiv)
+    let divCells = []
+    newCells.forEach((c) => {
+        divCells.push(makeDivCell(c))
+    })
+    
+    divCells.forEach((d) => {
+        parentDiv.appendChild(d)
+    })
 }
 
 
@@ -90,8 +124,4 @@ async function checkValidWord(guessedWord) {
         return false
     }
     return true
-}
-
-function addWordToRow(word){
-
 }
