@@ -9,40 +9,14 @@
     <script type="text/javascript" src="index.js"></script>
     <script type="text/javascript" src="getWordleWord.js"></script>
     <script>
-        // window.onload = () => {
-        //     // alert("hi")
-        //     for (let i = 0; i < 5; i++){
-        //         document.writeln(`<div id=row${i}>`)
-        //         buildRow(i)
-        //         document.write(`</div>`)
-        //     }
-	    // }
-
-        $(document).ready(function(){
-            $('#btn1').click(checkWord($("#guess").val(), word))
-            }
-        )
-
-        // function formatGameBoard() {
-        //     for (let i = 0; i < 4; i++){
-        //         console.log('row' + i)
-        //         let currentDiv = document.getElementById('row0')
-        //         console.log(currentDiv)
-        //         let letterCells = buildRow(i)
-        //         console.log(letterCells)
-
-        //         letterCells.forEach(element => {
-        //             currentDiv.appendChild(element)
-        //         });
-        //     }
-        // }
-        
-
+        let currentRow = 0
+        let word = getWordleWord()
+        console.log(word)
         window.onload = () => {
             for (let i = 0; i < 6; ++i){
                 // console.log('row' + i)
                 let currentDiv = document.getElementById('row' + i)
-                console.log(currentDiv)
+                // console.log(currentDiv)
                 let letterCells = buildRow(i)
                 // console.log(letterCells)
 
@@ -50,9 +24,19 @@
                     currentDiv.appendChild(element)
                 });
             }
-            
-            let word = getWordleWord()
         }
+
+        $(document).ready(function(){
+            $('#guessBtn').click(
+                function() {
+                    let guess = $("#guessVal").val();
+                    let newCells = checkWord(guess, word);
+                    if(newCells.length === 5){
+                        setRowWord(newCells, currentRow);
+                        currentRow++;
+                    }
+                })
+        })
     </script>
 </head>
 
@@ -62,8 +46,8 @@
 
     <div class="row" id="row0"> </div>
     <div class="row" id="row1"></div>
-    <div class="row"id="row2"></div>
-    <div class="row"id="row3"></div>
+    <div class="row" id="row2"></div>
+    <div class="row" id="row3"></div>
     <div class="row" id="row4"></div>
     <div class="row" id="row5"></div>
 
@@ -71,12 +55,15 @@
     <div>
         <form>
             <label >What is your guess?:</label><br>
-            <input type = "text" id="guess"> <br>
-            <!-- <button onclick=checkWord() value="CheckGuess">Check My Guess</button> -->
-            <input type="button" id="guessBtn" value="Check My Guess">
+            <input type="text" id="guessVal"> <br>
+            <input type="button" value="Check My Guess" id="guessBtn">
             <!-- <button onclick="speak('Good Bye')" value="GoodBye">Good Bye</button> -->
             <!-- <button onclick="speak('Greetings')" value="greet">Greetings</button> -->
         </form>
+    </div>
+
+    <div>
+        <!-- used letters -->
     </div>
    
 </body>
