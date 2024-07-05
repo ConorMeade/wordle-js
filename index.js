@@ -29,12 +29,18 @@ function updateRow(newCells, currentRow, word){
         }
 
         parentDiv.appendChild(divCells[i])
-    } 
-    
-    if(greenCount === 5){
-        console.log('Correct!');
+    }
+}
+
+function countGreenCells(newCells){
+    let greenCount = 0
+    for(let i=0; i < newCells.length; i++){
+        if(newCells[i].colorCode == 1){
+            greenCount++
+        }
     }
 
+    return greenCount
 }
 
 function initRows(){
@@ -108,10 +114,29 @@ async function checkValidWord(guessedWord) {
             throw new Error(`Response status: ${response.status}`);
         }
     } catch (error) {
-        console.error(error.message);
-        alert(`The word '${guessedWord}' is not a valid word. Please Try again!`);
+        alert(`The word '${guessedWord}' is not a valid word. Please try again!`);
         // if we 404, then a valid word was not entered
         return false;
     }
     return true;
+}
+
+
+function clearBoard(){
+    for(let i=0; i<6;i++){
+        let parentDiv = document.getElementById('row' + i);
+        while (parentDiv.firstChild) {
+            parentDiv.firstChild.remove();
+        }
+    }
+
+    for (let i = 0; i < 6; ++i){
+        let currentDiv = document.getElementById('row' + i);
+        let letterCells = initRows(i);
+
+        letterCells.forEach(element => {
+            currentDiv.appendChild(element);
+        });
+    }
+    
 }
