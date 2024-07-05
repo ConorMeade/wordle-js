@@ -9,16 +9,16 @@
     <script type="text/javascript" src="index.js"></script>
     <script type="text/javascript" src="getWordleWord.js"></script>
     <script>
-        let currentRow = 0
-        let word = getWordleWord()
+        let currentRow = 0;
+        let word = getWordleWord();
         console.log(word)
         window.onload = () => {
             for (let i = 0; i < 6; ++i){
-                let currentDiv = document.getElementById('row' + i)
-                let letterCells = initRows(i)
+                let currentDiv = document.getElementById('row' + i);
+                let letterCells = initRows(i);
 
                 letterCells.forEach(element => {
-                    currentDiv.appendChild(element)
+                    currentDiv.appendChild(element);
                 });
             }
         }
@@ -27,9 +27,14 @@
             $('#guessBtn').click(
                 function() {
                     let guess = $("#guessVal").val();
-                    let newCells = checkWord(guess, word);
-                    if(newCells.length === 5){
-                        setRowWord(newCells, currentRow);
+                    console.log(guess)
+                    // console.log(checkValidWord(guess, word))
+                    let validWord = checkValidWord(guess, word)
+                    if(validWord){
+                        console.log('aaa')
+                        let newCells = getCellsForGuess(guess, word);
+                        console.log(newCells)
+                        updateRow(newCells, currentRow, word);
                         currentRow++;
                     }
                 })
@@ -41,7 +46,7 @@
 <body>
     <h2>Welcome to Wordle!</h2>
 
-    <div class="row" id="row0"> </div>
+    <div class="row" id="row0"></div>
     <div class="row" id="row1"></div>
     <div class="row" id="row2"></div>
     <div class="row" id="row3"></div>
