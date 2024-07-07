@@ -25,6 +25,12 @@
                 });
             }
 
+            qRowLetters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
+            aRowLetters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
+            zRowLetters = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+            initLetterBoard(qRowLetters, 'q')
+            initLetterBoard(aRowLetters, 'a')
+            initLetterBoard(zRowLetters, 'z')
         }
 
         $(document).ready(function(){
@@ -34,7 +40,7 @@
                     validWord = await checkValidWord(guess, word);
                     if(validWord){
                         let newCells = getCellsForGuess(guess, word);
-                        updateRow(newCells, currentRow, word);
+                        updateBoard(newCells, currentRow, word);
                         greenCt = countGreenCells(newCells);
                         currentRow++;
                         if(greenCt == 5){
@@ -78,9 +84,9 @@
     </div>
 
     <div class="letterBoard">
-        <div class="qRow"></div>
-        <div class="aRow"></div>
-        <div class="zRow"></div>
+        <div class="qRow" id="qRow"></div>
+        <div class="aRow" id="aRow"></div>
+        <div class="zRow" id="zRow"></div>
     </div>
    
 </body>

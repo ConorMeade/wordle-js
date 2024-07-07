@@ -10,7 +10,7 @@ function Cell(letter, colorCode){
     this.colorCode = colorCode
 }
 
-function updateRow(newCells, currentRow, word){
+function updateBoard(newCells, currentRow, word){
     let parentDiv = document.getElementById('row' + currentRow);
     let greenCount = 0;
     while (parentDiv.firstChild) {
@@ -56,24 +56,21 @@ function initRows(){
     return divCells;
 }
 
-function initLetterBoard(){
-    let letterBoardDivs = []
-    qRowLetters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
-    aRowLetters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
-    zRowLetters = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
-
-    qRowLetters.forEach((letter) => {
-        letterBoardDivs.push(new Cell(letter, 0))
+function initLetterBoard(letterBoardRowLetters, firstLetter){
+    let letterBoardCells = []
+    letterBoardRowLetters.forEach((letter) => {
+        letterBoardCells.push(new Cell(letter, 4))
     })
 
-    aRowLetters.forEach((letter) => {
-        letterBoardDivs.push(new Cell(letter, 0))
+    let letterBoardDivCells = []
+    letterBoardCells.forEach((c) => {
+        letterBoardDivCells.push(makeDivCell(c))
     })
 
-    zRowLetters.forEach((letter) => {
-        letterBoardDivs.push(new Cell(letter, 0))
-    })
-
+    let currentDiv = document.getElementById(firstLetter + 'Row')
+    letterBoardDivCells.forEach(element => {
+        currentDiv.appendChild(element);
+    });
 }
 
 function getCellsForGuess(guessedWord, actualWord){
@@ -94,7 +91,7 @@ function getCellsForGuess(guessedWord, actualWord){
 
 function makeDivCell(cell) {
     const newDiv = document.createElement('div');
-    newDiv.style.cssText = 'color: black;border-style: solid;height: 100px;width: 100px;';
+    newDiv.style.cssText = 'color: black;border-style: solid;height: 90px;width: 90px;';
 
     switch(cell.colorCode) {
         case 0:
@@ -108,6 +105,11 @@ function makeDivCell(cell) {
             break;
         case 3:
             newDiv.className = 'whiteCell';
+            break;
+        case 4:
+            newDiv.style.cssText = 'color: black;border-style: solid;height: 55px;width: 55px;';
+            newDiv.className = "letterBoardCell"
+            newDiv.id = `letter-${cell.letter}`
             break;
         default:
             console.log('reached an invalid colorCode');

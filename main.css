@@ -1,5 +1,5 @@
 h2 {
-    margin-left: 17%;
+    margin-left: 8%;
 }
 
 .wordleEntry{
@@ -58,8 +58,51 @@ h2 {
     line-height: 90px;
 }
 
-.row{ 
+
+.letterBoardCell {
+    color:black;
+    background-color: lightgray;
+    border-style: solid;
+    height: 15px;
+    width: 15px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 55px;
+}
+
+.row { 
     display: flex;
     column-gap:  5px;
     margin-top: 5px;
+}
+
+.letterBoard {
+    margin-top: 15px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 5px 0;
+}
+
+.qRow {
+    display: flex;
+    text-align: center;
+    column-gap:  5px;
+    /* align-items: center; */
+}
+
+.aRow {
+    display: flex;
+    text-align: center;
+    margin-top: 5px;
+    column-gap:  5px;
+    padding-left: 2%;
+}
+
+.zRow {
+    display: flex;
+    text-align: center;
+    margin-top: 5px;
+    column-gap:  5px;
+    padding-left: 6%;
 }
