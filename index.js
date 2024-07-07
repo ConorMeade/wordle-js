@@ -1,4 +1,3 @@
-
 function Cell(letter, colorCode){
     /*
         colorCodes
@@ -55,6 +54,26 @@ function initRows(){
     })
 
     return divCells;
+}
+
+function initLetterBoard(){
+    let letterBoardDivs = []
+    qRowLetters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
+    aRowLetters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
+    zRowLetters = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+
+    qRowLetters.forEach((letter) => {
+        letterBoardDivs.push(new Cell(letter, 0))
+    })
+
+    aRowLetters.forEach((letter) => {
+        letterBoardDivs.push(new Cell(letter, 0))
+    })
+
+    zRowLetters.forEach((letter) => {
+        letterBoardDivs.push(new Cell(letter, 0))
+    })
+
 }
 
 function getCellsForGuess(guessedWord, actualWord){
