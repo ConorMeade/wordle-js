@@ -14,8 +14,9 @@
         let word = getWordleWord();
         let gameFinished = false
         let validWord = false
-        console.log(word)
+        console.log("This games word is: ", word)
         window.onload = () => {
+            // create cells for game board, 6 guesses
             for (let i = 0; i < 6; ++i){
                 let currentDiv = document.getElementById('row' + i);
                 let letterCells = initRows(i);
@@ -36,6 +37,8 @@
         $(document).ready(function(){
             $('#guessBtn').click(
                 async function() {
+                    // check for valid word and update board accordingly
+                    // If we get 5 green letters or use all 6 guesses, enter end game state
                     let guess = $("#guessVal").val();
                     validWord = await checkValidWord(guess, word);
                     if(validWord){

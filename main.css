@@ -1,5 +1,6 @@
 h2 {
     margin-left: 8%;
+    display: flex;
 }
 
 .wordleEntry{
@@ -59,9 +60,9 @@ h2 {
 }
 
 
-.letterBoardCell {
+.letterBoardCellUnanswered {
     color:black;
-    background-color: lightgray;
+    background-color: #ebebeb;
     border-style: solid;
     height: 15px;
     width: 15px;
@@ -69,6 +70,41 @@ h2 {
     vertical-align: middle;
     line-height: 55px;
 }
+
+.letterBoardCellGreen {
+    color:black;
+    background-color: greenyellow;
+    border-style: solid;
+    height: 15px;
+    width: 15px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 55px;
+}
+
+.letterBoardCellYellow {
+    color:black;
+    background-color: gold;
+    border-style: solid;
+    height: 15px;
+    width: 15px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 55px;
+}
+
+.letterBoardCellGray {
+    color:black;
+    background-color: darkgray;
+    border-style: solid;
+    height: 15px;
+    width: 15px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 55px;
+}
+
+
 
 .row { 
     display: flex;
