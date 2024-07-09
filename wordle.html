@@ -9,7 +9,7 @@
     <script type="text/javascript" src="index.js"></script>
     <script type="text/javascript" src="getWordleWord.js"></script>
     <script>
-        async function getWord(){
+        async function getWord(gameReset){
             let currentRow = 0;
             let greenCt = 0;
             let word;
@@ -26,23 +26,25 @@
             // console.log(w)
             console.log("This games word is: ", word)
 
-            for (let i = 0; i < 6; ++i){
-                let currentDiv = document.getElementById('row' + i);
-                let letterCells = initRows(i);
+            if(!gameReset) {
+                for (let i = 0; i < 6; ++i){
+                    let currentDiv = document.getElementById('row' + i);
+                    let letterCells = initRows(i);
 
-                letterCells.forEach(element => {
-                    currentDiv.appendChild(element);
-                });
+                    letterCells.forEach(element => {
+                        currentDiv.appendChild(element);
+                    });
+                }
+
+                qRowLetters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
+                aRowLetters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
+                zRowLetters = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+                initLetterBoard(qRowLetters, 'q')
+                initLetterBoard(aRowLetters, 'a')
+                initLetterBoard(zRowLetters, 'z')
             }
 
-            qRowLetters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
-            aRowLetters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
-            zRowLetters = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
-            initLetterBoard(qRowLetters, 'q')
-            initLetterBoard(aRowLetters, 'a')
-            initLetterBoard(zRowLetters, 'z')
 
-            
             $(document).ready(function(){
                 $('#guessBtn').click(
                     async function() {
@@ -72,7 +74,7 @@
                     })
             })
         }
-        getWord()
+        getWord(false)
     </script>
 </head>
 
@@ -93,7 +95,7 @@
             <label >What is your guess?:</label><br>
             <input type="text" id="guessVal"> <br>
             <input type="button" value="Check My Guess" id="guessBtn">
-            <input type="button" style="display: none" value="New Game" id="resetBtn" onclick=clearBoard()>
+            <input type="button" style="display: none" value="New Game" id="resetBtn" onclick="clearBoard(); getWord(true)">
         </form>
     </div>
 
