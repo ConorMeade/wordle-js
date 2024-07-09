@@ -13,7 +13,6 @@ function Cell(letter, colorCode){
 function updateBoard(newCells, currentRow){
     // function used to update the regular game board and the letter board.
     let parentDiv = document.getElementById('row' + currentRow);
-    let greenCount = 0;
     while (parentDiv.firstChild) {
         parentDiv.firstChild.remove();
     }
@@ -45,7 +44,7 @@ function updateBoard(newCells, currentRow){
 
                         i.e. if the word is 'brass' and the guess is 'canal' (two a's)
 
-                        'a' is a gold letter, so it should be marked like that.
+                        'a' is a gold letter, so it should be marked as such on the letter board.
                         We keep track of usedLetters so the second a in canal (which is not in brass)
                         is a miss. However, that second 'a' should not overwrite the yellow letter on the letter board.
 
@@ -63,7 +62,6 @@ function updateBoard(newCells, currentRow){
         }
     })
 
-    // counting green cells
     for(let i=0; i < divCells.length; i++){
         parentDiv.appendChild(divCells[i]);
     }
@@ -115,15 +113,17 @@ function initLetterBoard(letterBoardRowLetters, firstLetter){
 
 function getCellsForGuess(guessedWord, actualWord){
     // take guessed word and compare with actual word, create new cells for current row with proper colors
+    let guessedWordLower = guessedWord.toLowerCase();
+    let actualWordLower = actualWord.toLowerCase();
     let newRow = [];
     let usedLetters = '';
     for (let i = 0; i < actualWord.length; i++) {
-        let curLetter = guessedWord.charAt(i);
-        let actualWordNoCurLetter = actualWord.replace(actualWord.charAt(i), "");
-        if(actualWord.charAt(i) == curLetter){
+        let curLetter = guessedWordLower.charAt(i);
+        let actualWordNoCurLetter = actualWordLower.replace(actualWordLower.charAt(i), "");
+        if(actualWordLower.charAt(i) == curLetter){
             newRow.push(new Cell(curLetter.toUpperCase(), 1));
             usedLetters += curLetter;
-        } else if (actualWord.charAt(i) != guessedWord.charAt(i) && actualWordNoCurLetter.indexOf(curLetter) > -1 && !usedLetters.includes(curLetter)){
+        } else if (actualWordLower.charAt(i) != guessedWordLower.charAt(i) && actualWordNoCurLetter.indexOf(curLetter) > -1 && !usedLetters.includes(curLetter)){
             newRow.push(new Cell(curLetter.toUpperCase(), 2));
             usedLetters += curLetter;
         } else {
@@ -166,7 +166,7 @@ function makeDivCell(cell) {
     return newDiv;
 }
 
-async function checkValidWord(guessedWord) {
+async function checkValidWord(guessedWord, alertOn) {
     // check word has a length of 5
     if(guessedWord.length != 5){
         alert("Words have to be 5 letter in length. Please try again!")
@@ -181,7 +181,12 @@ async function checkValidWord(guessedWord) {
             throw new Error(`Response status: ${response.status}`);
         }
     } catch (error) {
-        alert(`The word '${guessedWord}' is not a valid word. Please try again!`);
+        if(alertOn){
+            alert(`The word '${guessedWord}' is not a valid word. Please try again!`);
+        } else {
+            console.log(`${guessedWord} was fetched from the API, but that is an invalid word here.`)
+        }
+            
         // if we 404, then a valid word was not entered
         return false;
     }
@@ -191,7 +196,7 @@ async function checkValidWord(guessedWord) {
 
 function clearBoard(){
     // reset button function, remove all divs and re-init board
-    for(let i=0; i<6;i++){
+    for(let i=0; i<6; i++){
         let parentDiv = document.getElementById('row' + i);
         while (parentDiv.firstChild) {
             parentDiv.firstChild.remove();
@@ -207,6 +212,7 @@ function clearBoard(){
         });
     }
 
+    // clear letter board
     const alphabet = [
         "A", "B", "C", "D", "E", "F", 
         "G", "H", "I", "J", "K", "L",
