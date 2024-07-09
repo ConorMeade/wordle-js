@@ -10,13 +10,16 @@
     <script type="text/javascript" src="getWordleWord.js"></script>
     <script>
         async function getWord(gameReset){
+            clearBoard();
             let currentRow = 0;
             let greenCt = 0;
-            let word;
+            let guess = "";
+            let word = "brass";
             let gameFinished = false;
+            $('#resetBtn').toggle(gameFinished);
             let validWord = false;
             word = await getWordleWord()
-            let wCheck = await checkValidWord(word)
+            let wCheck = await checkValidWord(word, false)
             while(!wCheck) {
                 // continue to hit endpoint until we get a valid word
                 word = await getWordleWord()
@@ -34,44 +37,45 @@
                     });
                 }
 
-                qRowLetters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
-                aRowLetters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
-                zRowLetters = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
-                initLetterBoard(qRowLetters, 'q')
-                initLetterBoard(aRowLetters, 'a')
-                initLetterBoard(zRowLetters, 'z')
+                qRowLetters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
+                aRowLetters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
+                zRowLetters = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
+                initLetterBoard(qRowLetters, 'q');
+                initLetterBoard(aRowLetters, 'a');
+                initLetterBoard(zRowLetters, 'z');
             }
 
+            $('#guessBtn').click(
+                async function() {
+                    // check for valid word and update board accordingly
+                    // If we get 5 green letters or use all 6 guesses, enter end game state
 
-            $(document).ready(function(){
-                $('#guessBtn').click(
-                    async function() {
-                        // check for valid word and update board accordingly
-                        // If we get 5 green letters or use all 6 guesses, enter end game state
-                        let guess = $("#guessVal").val();
-                        validWord = await checkValidWord(guess, true);
-                        if(validWord){
-                            let newCells = getCellsForGuess(guess, word);
-                            updateBoard(newCells, currentRow, word);
-                            greenCt = countGreenCells(newCells);
-                            currentRow++;
-                            if(greenCt == 5){
-                                currentRow = 0;
-                                gameFinished = true;
-                                $('#resetBtn').toggle(gameFinished);
-                                alert(`You got it right! The correct word is '${word}'`);
-                            }
-
-                            if(currentRow == 6 && greenCt != 5){
-                                currentRow = 0;
-                                gameFinished = true;
-                                $('#resetBtn').toggle(gameFinished);
-                                alert(`You used all your gueses. The word is '${word}'`);
-                            }
+                    // TODO: fix this, when new game btn is clicked, the old game's answers are still there
+                    guess = $("#guessVal").val();
+                    validWord = await checkValidWord(guess, true);
+                    // console.log(word)
+                    if(validWord){
+                        let newCells = getCellsForGuess(guess, word);
+                        updateBoard(newCells, currentRow);
+                        greenCt = countGreenCells(newCells);
+                        currentRow++;
+                        if(greenCt == 5){
+                            currentRow = 0;
+                            gameFinished = true;
+                            $('#resetBtn').toggle(gameFinished);
+                            alert(`You got it right! The correct word is '${word}'`);
                         }
-                    })
-            })
-        }
+
+                        if(currentRow == 6 && greenCt != 5){
+                            currentRow = 0;
+                            gameFinished = true;
+                            $('#resetBtn').toggle(gameFinished);
+                            alert(`You used all your gueses. The word is '${word}'`);
+                        }
+                    }
+                })
+                // })
+            }
         getWord(false)
     </script>
 </head>
@@ -93,7 +97,7 @@
             <label >What is your guess?:</label><br>
             <input type="text" id="guessVal"> <br>
             <input type="button" value="Check My Guess" id="guessBtn">
-            <input type="button" style="display: none" value="New Game" id="resetBtn" onclick="clearBoard(); getWord(true)">
+            <input type="button" style="display: none" value="New Game" id="resetBtn" onclick="getWord(true);">
         </form>
     </div>
 

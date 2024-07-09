@@ -61,7 +61,6 @@ function updateBoard(newCells, currentRow){
             }
         }
     })
-
     for(let i=0; i < divCells.length; i++){
         parentDiv.appendChild(divCells[i]);
     }
@@ -113,6 +112,7 @@ function initLetterBoard(letterBoardRowLetters, firstLetter){
 
 function getCellsForGuess(guessedWord, actualWord){
     // take guessed word and compare with actual word, create new cells for current row with proper colors
+    // console.log(guessedWord, actualWord)
     let guessedWordLower = guessedWord.toLowerCase();
     let actualWordLower = actualWord.toLowerCase();
     let newRow = [];
@@ -195,23 +195,30 @@ async function checkValidWord(guessedWord, alertOn) {
 
 
 function clearBoard(){
+    if (document.getElementById('guessVal')!= null){
+        document.getElementById('guessVal').value = '';
+    }
     // reset button function, remove all divs and re-init board
     for(let i=0; i<6; i++){
         let parentDiv = document.getElementById('row' + i);
-        while (parentDiv.firstChild) {
-            parentDiv.firstChild.remove();
+        if (parentDiv != null){
+            while (parentDiv.firstChild) {
+                parentDiv.firstChild.remove();
+            }
         }
     }
 
     for (let i = 0; i < 6; ++i){
-        let currentDiv = document.getElementById('row' + i);
-        let letterCells = initRows(i);
+        let parentDiv = document.getElementById('row' + i);
+        if (parentDiv != null){
+            let letterCells = initRows(i);
 
-        letterCells.forEach(element => {
-            currentDiv.appendChild(element);
-        });
+            letterCells.forEach(element => {
+                parentDiv.appendChild(element);
+            });
+        }
     }
-
+    
     // clear letter board
     const alphabet = [
         "A", "B", "C", "D", "E", "F", 
@@ -224,9 +231,13 @@ function clearBoard(){
     alphabet.forEach((letter) => {
         let letterBoardCellDiv = document.getElementById(`letterBoard-${letter}`);
         if (letterBoardCellDiv == null) {
-            letterBoardCellDiv = document.getElementById(`letterBoardAnswered-${letter}`);
+            letterBoardCellDiv = document.getElementById(`letterBoardAnswered-${letter.toUpperCase()}`);
+            // console.log(letterBoardCellDiv)
+            if (letterBoardCellDiv != null) {
+                letterBoardCellDiv.className = 'letterBoardCellUnanswered';
+            }
+        } else {
+            letterBoardCellDiv.className = 'letterBoardCellUnanswered';
         }
-        letterBoardCellDiv.className = 'letterBoardCellUnanswered';
     })
-    
 }
