@@ -19,7 +19,6 @@
             let wCheck = await checkValidWord(word)
             while(!wCheck) {
                 // continue to hit endpoint until we get a valid word
-                console.log('check failed')
                 word = await getWordleWord()
                 wCheck = await checkValidWord(word, false)
             }
